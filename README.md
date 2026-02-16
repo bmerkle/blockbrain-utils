@@ -21,7 +21,8 @@ pip install -e ".[dev]"
 ## Usage
 
 ```python
-from blockbrain_utils.utils import greet, add
+# Import directly from the package
+from blockbrain_utils import greet, add
 
 # Use the greet function
 message = greet("World")
@@ -30,6 +31,9 @@ print(message)  # Output: Hello, World!
 # Use the add function
 result = add(2, 3)
 print(result)  # Output: 5
+
+# Or import from the module
+from blockbrain_utils.utils import greet, add
 ```
 
 ## Development
