@@ -1,6 +1,7 @@
 # blockbrain-utils
 
-A collection of utility functions and tools for Python projects.
+Utility library for generating images via the [BlockBrain](https://theblockbrain.ai) platform.
+Two implementations are provided — one using the **blockbrain_api SDK** and one using **pure REST/requests**.
 
 ## Installation
 
@@ -18,22 +19,64 @@ pip install -e .
 pip install -e ".[dev]"
 ```
 
+## Configuration
+
+The library reads its settings from environment variables (a `.env` file is loaded automatically).
+You can also pass values explicitly via `BlockBrainConfig`:
+
+| Variable | Description | Default |
+|---|---|---|
+| `BLOCKBRAIN_API_BASE` | Base URL of the BlockBrain API | `https://blocky.theblockbrain.ai` |
+| `BLOCKBRAIN_API_TOKEN` | Bearer token for authentication | — |
+| `BLOCKBRAIN_BOT_ID` | Bot / assistant ID | — |
+| `BLOCKBRAIN_CHAT_MODEL` | Chat model identifier | `google-gemini-2.5-flash` |
+| `BLOCKBRAIN_IMAGE_MODEL` | Image model identifier | `google-vertex-25-flash-image` |
+| `BLOCKBRAIN_TENANT_DOMAIN` | Tenant domain | `sick` |
+
 ## Usage
 
+### command line
+
 ```python
-# Import directly from the package
-from blockbrain_utils import greet, add
 
-# Use the greet function
-message = greet("World")
-print(message)  # Output: Hello, World!
+ python .\src\blockbrain_utils\bb_generate_image_API.py -i .\tests\data\example.jpg -o sample.png
+```
 
-# Use the add function
-result = add(2, 3)
-print(result)  # Output: 5
+### SDK-based client (recommended)
 
-# Or import from the module
-from blockbrain_utils.utils import greet, add
+```python
+from blockbrain_utils import BlockBrainConfig, generate_blockbrain_image
+
+cfg = BlockBrainConfig(api_token="your-token", bot_id="your-bot-id")
+result = generate_blockbrain_image(
+    image_path="photo.jpg",
+    prompt="Describe this image",
+    cfg=cfg,
+)
+```
+
+### REST-based client
+
+```python
+from blockbrain_utils.bb_generate_image_REST import (
+    BlockBrainConfig,
+    generate_blockbrain_image,
+)
+
+cfg = BlockBrainConfig(api_token="your-token", bot_id="your-bot-id")
+result = generate_blockbrain_image(
+    image_path="photo.jpg",
+    prompt="Describe this image",
+    cfg=cfg,
+)
+```
+
+### Extracting the signed URL
+
+```python
+from blockbrain_utils import extract_signed_url
+
+url = extract_signed_url(api_response_text)
 ```
 
 ## Development
@@ -57,10 +100,13 @@ blockbrain-utils/
 ├── src/
 │   └── blockbrain_utils/
 │       ├── __init__.py
-│       └── utils.py
+│       ├── bb_generate_image_API.py   # SDK-based client
+│       └── bb_generate_image_REST.py  # Pure REST client
 ├── tests/
 │   ├── __init__.py
-│   └── test_utils.py
+│   ├── test_bb_generate_image_API.py
+│   └── data/
+│       └── example.jpg
 ├── pyproject.toml
 ├── README.md
 ├── LICENSE
@@ -69,4 +115,4 @@ blockbrain-utils/
 
 ## License
 
-MIT License - see LICENSE file for details.
+MIT License — see LICENSE file for details.
