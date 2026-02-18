@@ -84,6 +84,9 @@ def create_data_room(session: requests.Session, cfg: BlockBrainConfig,
         "sessionId": session_id,
         "defaultLanguage": "English",
         "isDefaultConvoName": True,
+        "enableGenerateImage": True,
+        "model": cfg.chat_model,
+        "imageModel": cfg.image_model, # TODO: this param is currently missing in the python API 
     }
     resp = session.post(_url(cfg, f"/cortex/active-bot/{bot_id}/convo"), json=payload)
     return _check(resp, "create_data_room")
