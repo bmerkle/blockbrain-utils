@@ -135,7 +135,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
 .envrc
 .venv
 env/
@@ -206,4 +205,13 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
+
+# Local configuration files
+.env
 .user-prompt
+
+# Image I/O directories (keep structure, ignore contents)
+image_input/*
+!image_input/.gitkeep
+image_output/*
+!image_output/.gitkeep

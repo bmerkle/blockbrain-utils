@@ -458,8 +458,8 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "-p", "--path",
         type=Path,
-        default=None,
-        help="Directory containing the image to upload (used with --upload-attachment).",
+        default=Path("image_input"),
+        help="Directory containing the image to upload (default: image_input).",
     )
     parser.add_argument(
         "-f", "--file",
@@ -470,8 +470,8 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "-o", "--output",
         type=str,
-        default="output_image.png",
-        help="Destination path for the generated image (default: output_image.png)",
+        default="image_output",
+        help="Destination path for the generated image (default: image_output).",
     )
     parser.add_argument(
         "-i", "--instructions",
